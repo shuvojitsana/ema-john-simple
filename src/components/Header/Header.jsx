@@ -1,16 +1,29 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import './Header.css';
 import logo from '../../images/Logo.svg'
+import { Link, Outlet } from 'react-router-dom';
+import { AuthContext } from '../../Providers/AuthProvider';
 
 const Header = () => {
+
+    const {user, logOut} = useContext(AuthContext);
+
+    const handleLogOut = () =>{
+        logOut()
+        .then(result => {})
+        .catch(error => console.error(error))
+    }
+
     return (
         <nav className='header'>
             <img src={logo} alt="" />
             <div>
-                <a href="/shop">Shop</a>
-                <a href="/order">Order</a>
-                <a href="/inventory">Inventory</a>
-                <a href="/login">Login</a>
+                <Link to="/">Shop</Link>
+                <Link to="/orders">Orders</Link>
+                <Link to="/inventory">Inventory</Link>
+                <Link to="/login">Login</Link>
+                <Link to="/signUp">Sign up</Link>
+                {user && <span className='text-white'> {user.email} <button onClick={handleLogOut}>Log out</button></span>}
             </div>
 
         </nav>
